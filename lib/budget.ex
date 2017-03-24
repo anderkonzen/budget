@@ -1,18 +1,18 @@
 defmodule Budget do
-  @moduledoc """
-  Documentation for Budget.
-  """
+  alias NimbleCSV.RFC4180, as: CSV
 
-  @doc """
-  Hello world.
+  
+  def list_transactions do
+    File.read!("lib/transactions.csv")
+    |> parse
+    |> filter
+  end
 
-  ## Examples
+  defp parse(transactions) do
+    CSV.parse_string(transactions)
+  end
 
-      iex> Budget.hello
-      :world
-
-  """
-  def hello do
-    :world
+  defp filter(rows) do
+    Enum.map(rows, &(Enum.drop(&1, 1)))
   end
 end
